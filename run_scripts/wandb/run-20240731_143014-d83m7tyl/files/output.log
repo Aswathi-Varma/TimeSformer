@@ -1,0 +1,631 @@
+Not using distributed mode
+[14:30:16.578481] job dir: /root/seg_framework/MS-Mamba/run_scripts
+[14:30:16.578576] Namespace(accum_iter=1,
+model='SegFormer3D',
+in_channels=1,
+lr=None,
+blr=0.001,
+min_lr=0,
+dist_on_itp=False,
+warmup_epochs=20,
+device='cuda:0',
+seed=42,
+layer_decay=0.75,
+clip_grad=None,
+num_workers=8,
+pin_mem=True,
+resume='',
+world_size=1,
+embed_dim=1,
+local_rank=-1,
+dist_url='env://',
+nb_classes=2,
+data_dir='/root/MSLesSeg24/data',
+datalist=None,
+modalities='T1,T2,FLAIR,T1ce',
+preprocess=False,
+distributed=False)
+[14:30:16.578655] device  cuda:0
+[14:30:17.393614] number of params: 28932289
+[14:30:17.393867] model: Vivim(
+  (encoder): mamba_block(
+    (downsample_layers): MixVisionTransformer(
+      (embeds): ModuleList(
+        (0): PatchEmbedding(
+          (patch_embeddings): Conv3d(3, 64, kernel_size=(7, 7, 7), stride=(4, 4, 4), padding=(3, 3, 3))
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        )
+        (1): PatchEmbedding(
+          (patch_embeddings): Conv3d(64, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+          (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        )
+        (2): PatchEmbedding(
+          (patch_embeddings): Conv3d(128, 320, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+          (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (3): PatchEmbedding(
+          (patch_embeddings): Conv3d(320, 512, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1))
+          (norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+      (blocks): ModuleList(
+        (0): ModuleList(
+          (0-1): 2 x TransformerBlock(
+            (norm1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (attention): SelfAttention(
+              (query): Linear(in_features=64, out_features=64, bias=True)
+              (key_value): Linear(in_features=64, out_features=128, bias=True)
+              (attn_dropout): Dropout(p=0.0, inplace=False)
+              (proj): Linear(in_features=64, out_features=64, bias=True)
+              (proj_dropout): Dropout(p=0.0, inplace=False)
+              (sr): Conv3d(64, 64, kernel_size=(4, 4, 4), stride=(4, 4, 4))
+              (sr_norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            )
+            (norm2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): _MLP(
+              (fc1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=256)
+                (bn): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (fc2): Linear(in_features=256, out_features=64, bias=True)
+              (act_fn): GELU(approximate='none')
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): ModuleList(
+          (0-1): 2 x TransformerBlock(
+            (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (attention): SelfAttention(
+              (query): Linear(in_features=128, out_features=128, bias=True)
+              (key_value): Linear(in_features=128, out_features=256, bias=True)
+              (attn_dropout): Dropout(p=0.0, inplace=False)
+              (proj): Linear(in_features=128, out_features=128, bias=True)
+              (proj_dropout): Dropout(p=0.0, inplace=False)
+              (sr): Conv3d(128, 128, kernel_size=(2, 2, 2), stride=(2, 2, 2))
+              (sr_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            )
+            (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): _MLP(
+              (fc1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=512)
+                (bn): BatchNorm3d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (fc2): Linear(in_features=512, out_features=128, bias=True)
+              (act_fn): GELU(approximate='none')
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (2): ModuleList(
+          (0-1): 2 x TransformerBlock(
+            (norm1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SelfAttention(
+              (query): Linear(in_features=320, out_features=320, bias=True)
+              (key_value): Linear(in_features=320, out_features=640, bias=True)
+              (attn_dropout): Dropout(p=0.0, inplace=False)
+              (proj): Linear(in_features=320, out_features=320, bias=True)
+              (proj_dropout): Dropout(p=0.0, inplace=False)
+            )
+            (norm2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): _MLP(
+              (fc1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(1280, 1280, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=1280)
+                (bn): BatchNorm3d(1280, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (fc2): Linear(in_features=1280, out_features=320, bias=True)
+              (act_fn): GELU(approximate='none')
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (3): ModuleList(
+          (0-1): 2 x TransformerBlock(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (attention): SelfAttention(
+              (query): Linear(in_features=512, out_features=512, bias=True)
+              (key_value): Linear(in_features=512, out_features=1024, bias=True)
+              (attn_dropout): Dropout(p=0.0, inplace=False)
+              (proj): Linear(in_features=512, out_features=512, bias=True)
+              (proj_dropout): Dropout(p=0.0, inplace=False)
+            )
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): _MLP(
+              (fc1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(2048, 2048, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=2048)
+                (bn): BatchNorm3d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (fc2): Linear(in_features=2048, out_features=512, bias=True)
+              (act_fn): GELU(approximate='none')
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (norms): ModuleList(
+        (0): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        (2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        (3): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      )
+    )
+    (stages): ModuleList(
+      (0): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=64, out_features=256, bias=False)
+              (conv1d): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (act): SiLU()
+              (x_proj): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_b): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_b): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_b): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_s): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_s): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_s): Linear(in_features=4, out_features=128, bias=True)
+              (out_proj): Linear(in_features=128, out_features=64, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=256)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=256, out_features=64, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=64, out_features=256, bias=False)
+              (conv1d): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (act): SiLU()
+              (x_proj): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_b): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_b): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_b): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_s): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_s): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_s): Linear(in_features=4, out_features=128, bias=True)
+              (out_proj): Linear(in_features=128, out_features=64, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=256)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=256, out_features=64, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (1): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=128, out_features=512, bias=False)
+              (conv1d): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (act): SiLU()
+              (x_proj): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_b): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_b): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_b): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_s): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_s): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_s): Linear(in_features=8, out_features=256, bias=True)
+              (out_proj): Linear(in_features=256, out_features=128, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=512)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=512, out_features=128, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=128, out_features=512, bias=False)
+              (conv1d): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (act): SiLU()
+              (x_proj): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_b): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_b): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_b): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_s): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_s): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_s): Linear(in_features=8, out_features=256, bias=True)
+              (out_proj): Linear(in_features=256, out_features=128, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=512)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=512, out_features=128, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (2): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=320, out_features=1280, bias=False)
+              (conv1d): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (act): SiLU()
+              (x_proj): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_b): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_b): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_b): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_s): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_s): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_s): Linear(in_features=20, out_features=640, bias=True)
+              (out_proj): Linear(in_features=640, out_features=320, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(1280, 1280, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=1280)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=1280, out_features=320, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=320, out_features=1280, bias=False)
+              (conv1d): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (act): SiLU()
+              (x_proj): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_b): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_b): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_b): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_s): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_s): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_s): Linear(in_features=20, out_features=640, bias=True)
+              (out_proj): Linear(in_features=640, out_features=320, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(1280, 1280, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=1280)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=1280, out_features=320, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (3): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=512, out_features=2048, bias=False)
+              (conv1d): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (act): SiLU()
+              (x_proj): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_b): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_b): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_b): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_s): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_s): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_s): Linear(in_features=32, out_features=1024, bias=True)
+              (out_proj): Linear(in_features=1024, out_features=512, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(2048, 2048, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=2048)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=2048, out_features=512, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=512, out_features=2048, bias=False)
+              (conv1d): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (act): SiLU()
+              (x_proj): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_b): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_b): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_b): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_s): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_s): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_s): Linear(in_features=32, out_features=1024, bias=True)
+              (out_proj): Linear(in_features=1024, out_features=512, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv4D(
+                  (conv3d): Conv3d(2048, 2048, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=2048)
+                )
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=2048, out_features=512, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+    )
+  )
+  (decoder): SegFormerDecoderHead(
+    (linear_c): ModuleList(
+      (0): MLP_(
+        (proj): Linear(in_features=512, out_features=256, bias=True)
+        (bn): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      )
+      (1): MLP_(
+        (proj): Linear(in_features=320, out_features=256, bias=True)
+        (bn): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      )
+      (2): MLP_(
+        (proj): Linear(in_features=128, out_features=256, bias=True)
+        (bn): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      )
+      (3): MLP_(
+        (proj): Linear(in_features=64, out_features=256, bias=True)
+        (bn): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      )
+    )
+    (linear_fuse): Sequential(
+      (0): Conv3d(1024, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1), bias=False)
+      (1): BatchNorm3d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (linear_pred): Conv3d(256, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+    (upsample_volume): Upsample(scale_factor=4.0, mode='trilinear')
+  )
+)
+[14:30:17.395523] base lr: 1.00e-03
+[14:30:17.395587] actual lr: 7.81e-06
+[14:30:17.395649] accumulate grad iterations: 1
+[14:30:17.395700] effective batch size: 2
+[14:30:17.396604] AdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 7.8125e-06
+    maximize: False
+    weight_decay: 0.01
+)
+[14:30:17.398727] Start training for 300 epochs
+[14:30:17.399800] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/val_ft
+/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='mean' instead.
+  warnings.warn(warning.format(ret))
+[14:30:50.794597] Epoch: [0]  [ 0/18]  eta: 0:10:01  lr: 0.000000  loss: 5.1922 (5.1922)  time: 33.3941  data: 10.8951  max mem: 27885
+[14:31:04.869817] Epoch: [0]  [17/18]  eta: 0:00:02  lr: 0.000000  loss: 4.5864 (4.5720)  time: 2.6371  data: 0.6053  max mem: 27885
+[14:31:04.927534] Epoch: [0] Total time: 0:00:47 (2.6404 s / it)
+[14:31:04.928075] Averaged stats: lr: 0.000000  loss: 4.5864 (4.5720)
+[14:31:14.962415] Test:  [ 0/18]  eta: 0:03:00  loss: 5.1049 (5.1049)  time: 10.0322  data: 9.6057  max mem: 27885
+[14:31:27.559988] Test:  [10/18]  eta: 0:00:16  loss: 5.1049 (5.2437)  time: 2.0572  data: 1.6287  max mem: 27885
+[14:31:34.312356] Test:  [17/18]  eta: 0:00:01  loss: 5.1049 (5.2324)  time: 1.6322  data: 1.2025  max mem: 27885
+[14:31:34.392945] Test: Total time: 0:00:29 (1.6369 s / it)
+[14:31:42.343364] Test:  [0/4]  eta: 0:00:12  loss: 5.3918 (5.3918)  time: 3.1597  data: 2.7341  max mem: 27885
+[14:31:44.458314] Test:  [3/4]  eta: 0:00:01  loss: 4.9476 (5.2380)  time: 1.3185  data: 0.6836  max mem: 27885
+[14:31:44.509328] Test: Total time: 0:00:05 (1.3316 s / it)
+[14:31:45.570348] Dice score of the network on the train images: 0.010152, val images: 0.016088
+[14:31:45.570583] saving best_prec_model @ epoch 0
+[14:31:46.014113] saving best_rec_model @ epoch 0
+[14:31:46.451990] saving best_dice_model @ epoch 0
+[14:31:46.895267] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:31:59.302692] Epoch: [1]  [ 0/18]  eta: 0:03:43  lr: 0.000000  loss: 4.1421 (4.1421)  time: 12.4055  data: 11.5713  max mem: 27885
+[14:32:20.907614] Epoch: [1]  [17/18]  eta: 0:00:01  lr: 0.000001  loss: 3.3161 (3.3277)  time: 1.8894  data: 1.0535  max mem: 27885
+[14:32:20.985039] Epoch: [1] Total time: 0:00:34 (1.8939 s / it)
+[14:32:20.985337] Averaged stats: lr: 0.000001  loss: 3.3161 (3.3277)
+[14:32:33.855965] Test:  [ 0/18]  eta: 0:03:51  loss: 3.5050 (3.5050)  time: 12.8678  data: 12.4398  max mem: 27885
+[14:32:43.021280] Test:  [10/18]  eta: 0:00:16  loss: 3.2467 (3.2552)  time: 2.0029  data: 1.5709  max mem: 27885
+[14:32:49.882939] Test:  [17/18]  eta: 0:00:01  loss: 3.2467 (3.2735)  time: 1.6051  data: 1.1719  max mem: 27885
+[14:32:49.962140] Test: Total time: 0:00:28 (1.6097 s / it)
+[14:32:57.779052] Test:  [0/4]  eta: 0:00:12  loss: 3.3887 (3.3887)  time: 3.0472  data: 2.6178  max mem: 27885
+[14:32:58.857066] Test:  [3/4]  eta: 0:00:01  loss: 3.0616 (3.1426)  time: 1.0312  data: 0.6545  max mem: 27885
+[14:32:58.908835] Test: Total time: 0:00:04 (1.0444 s / it)
+[14:32:59.960092] Dice score of the network on the train images: 0.004342, val images: 0.008375
+[14:32:59.963144] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:33:13.523010] Epoch: [2]  [ 0/18]  eta: 0:04:04  lr: 0.000001  loss: 2.7587 (2.7587)  time: 13.5588  data: 12.7223  max mem: 27885
+[14:33:37.311971] Epoch: [2]  [17/18]  eta: 0:00:02  lr: 0.000001  loss: 2.5750 (2.5809)  time: 2.0748  data: 1.2376  max mem: 27885
+[14:33:37.398133] Epoch: [2] Total time: 0:00:37 (2.0797 s / it)
+[14:33:37.398433] Averaged stats: lr: 0.000001  loss: 2.5750 (2.5809)
+[14:33:53.616519] Test:  [ 0/18]  eta: 0:04:51  loss: 2.1391 (2.1391)  time: 16.2155  data: 15.7806  max mem: 27885
+[14:34:04.396696] Test:  [10/18]  eta: 0:00:19  loss: 2.1391 (2.1488)  time: 2.4541  data: 2.0209  max mem: 27885
+[14:34:10.210612] Test:  [17/18]  eta: 0:00:01  loss: 2.1705 (2.2042)  time: 1.8227  data: 1.3886  max mem: 27885
+[14:34:10.283692] Test: Total time: 0:00:32 (1.8269 s / it)
+[14:34:18.255731] Test:  [0/4]  eta: 0:00:12  loss: 2.1250 (2.1250)  time: 3.1563  data: 2.7263  max mem: 27885
+[14:34:19.335165] Test:  [3/4]  eta: 0:00:01  loss: 2.0511 (2.1043)  time: 1.0588  data: 0.6816  max mem: 27885
+[14:34:19.387220] Test: Total time: 0:00:04 (1.0721 s / it)
+[14:34:20.439083] Dice score of the network on the train images: 0.004035, val images: 0.009846
+[14:34:20.442477] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:34:33.116473] Epoch: [3]  [ 0/18]  eta: 0:03:47  lr: 0.000001  loss: 2.1684 (2.1684)  time: 12.6630  data: 11.8269  max mem: 27885
+[14:34:54.525159] Epoch: [3]  [17/18]  eta: 0:00:01  lr: 0.000002  loss: 2.0954 (2.1229)  time: 1.8928  data: 1.0516  max mem: 27885
+[14:34:54.613359] Epoch: [3] Total time: 0:00:34 (1.8984 s / it)
+[14:34:54.613816] Averaged stats: lr: 0.000002  loss: 2.0954 (2.1229)
+[14:35:09.264380] Test:  [ 0/18]  eta: 0:04:23  loss: 2.0067 (2.0067)  time: 14.6478  data: 14.2173  max mem: 27885
+[14:35:23.455582] Test:  [10/18]  eta: 0:00:20  loss: 1.8891 (1.9379)  time: 2.6216  data: 2.1887  max mem: 27885
+[14:35:27.471612] Test:  [17/18]  eta: 0:00:01  loss: 1.8880 (1.9065)  time: 1.8252  data: 1.3910  max mem: 27885
+[14:35:27.558259] Test: Total time: 0:00:32 (1.8301 s / it)
+[14:35:35.427233] Test:  [0/4]  eta: 0:00:12  loss: 1.8384 (1.8384)  time: 3.0550  data: 2.6251  max mem: 27885
+[14:35:36.509513] Test:  [3/4]  eta: 0:00:01  loss: 1.8021 (1.8602)  time: 1.0342  data: 0.6563  max mem: 27885
+[14:35:36.563691] Test: Total time: 0:00:04 (1.0480 s / it)
+[14:35:37.613830] Dice score of the network on the train images: 0.004895, val images: 0.009758
+[14:35:37.619900] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:35:48.009853] Epoch: [4]  [ 0/18]  eta: 0:03:07  lr: 0.000002  loss: 1.8265 (1.8265)  time: 10.3890  data: 9.5520  max mem: 27885
+[14:36:10.853112] Epoch: [4]  [17/18]  eta: 0:00:01  lr: 0.000002  loss: 1.8363 (1.8686)  time: 1.8462  data: 1.0063  max mem: 27885
+[14:36:10.940096] Epoch: [4] Total time: 0:00:33 (1.8511 s / it)
+[14:36:10.940511] Averaged stats: lr: 0.000002  loss: 1.8363 (1.8686)
+[14:36:23.238428] Test:  [ 0/18]  eta: 0:03:41  loss: 1.4461 (1.4461)  time: 12.2951  data: 11.8640  max mem: 27885
+[14:36:33.638387] Test:  [10/18]  eta: 0:00:16  loss: 1.5849 (1.5888)  time: 2.0631  data: 1.6281  max mem: 27885
+[14:36:42.413851] Test:  [17/18]  eta: 0:00:01  loss: 1.5962 (1.5982)  time: 1.7483  data: 1.3130  max mem: 27885
+[14:36:42.504122] Test: Total time: 0:00:31 (1.7534 s / it)
+[14:36:50.428867] Test:  [0/4]  eta: 0:00:12  loss: 1.5732 (1.5732)  time: 3.0573  data: 2.6251  max mem: 27885
+[14:36:51.511345] Test:  [3/4]  eta: 0:00:01  loss: 1.5519 (1.5936)  time: 1.0348  data: 0.6563  max mem: 27885
+[14:36:51.561866] Test: Total time: 0:00:04 (1.0477 s / it)
+[14:36:52.638700] Dice score of the network on the train images: 0.004906, val images: 0.011270
+[14:36:52.641774] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:37:04.310848] Epoch: [5]  [ 0/18]  eta: 0:03:30  lr: 0.000002  loss: 1.6750 (1.6750)  time: 11.6680  data: 10.8271  max mem: 27885
+[14:37:24.908004] Epoch: [5]  [17/18]  eta: 0:00:01  lr: 0.000002  loss: 1.6618 (1.6550)  time: 1.7924  data: 0.9525  max mem: 27885
+[14:37:24.988573] Epoch: [5] Total time: 0:00:32 (1.7970 s / it)
+[14:37:24.988789] Averaged stats: lr: 0.000002  loss: 1.6618 (1.6550)
+[14:37:40.907793] Test:  [ 0/18]  eta: 0:04:46  loss: 1.5348 (1.5348)  time: 15.9162  data: 15.4791  max mem: 27885
+[14:37:51.989462] Test:  [10/18]  eta: 0:00:19  loss: 1.4358 (1.4511)  time: 2.4543  data: 2.0203  max mem: 27885
+[14:37:58.600136] Test:  [17/18]  eta: 0:00:01  loss: 1.4358 (1.4580)  time: 1.8671  data: 1.4320  max mem: 27885
+[14:37:58.686357] Test: Total time: 0:00:33 (1.8720 s / it)
+[14:38:06.529017] Test:  [0/4]  eta: 0:00:12  loss: 1.4763 (1.4763)  time: 3.0699  data: 2.6400  max mem: 27885
+[14:38:07.612696] Test:  [3/4]  eta: 0:00:01  loss: 1.4522 (1.4734)  time: 1.0383  data: 0.6600  max mem: 27885
+[14:38:07.665624] Test: Total time: 0:00:04 (1.0518 s / it)
+[14:38:08.714837] Dice score of the network on the train images: 0.003986, val images: 0.010300
+[14:38:08.718780] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:38:25.576960] Epoch: [6]  [ 0/18]  eta: 0:05:03  lr: 0.000002  loss: 1.5683 (1.5683)  time: 16.8571  data: 15.9998  max mem: 27885
+[14:38:45.141274] Epoch: [6]  [17/18]  eta: 0:00:02  lr: 0.000003  loss: 1.5214 (1.5218)  time: 2.0233  data: 1.1829  max mem: 27885
+[14:38:45.226984] Epoch: [6] Total time: 0:00:36 (2.0282 s / it)
+[14:38:45.227235] Averaged stats: lr: 0.000003  loss: 1.5214 (1.5218)
+[14:38:54.594062] Test:  [ 0/18]  eta: 0:02:48  loss: 1.2878 (1.2878)  time: 9.3641  data: 8.9315  max mem: 27885
+[14:39:11.358375] Test:  [10/18]  eta: 0:00:19  loss: 1.3225 (1.3120)  time: 2.3752  data: 1.9419  max mem: 27885
+[14:39:16.275233] Test:  [17/18]  eta: 0:00:01  loss: 1.3037 (1.3074)  time: 1.7246  data: 1.2899  max mem: 27885
+[14:39:16.360578] Test: Total time: 0:00:31 (1.7295 s / it)
+[14:39:24.186869] Test:  [0/4]  eta: 0:00:12  loss: 1.3230 (1.3230)  time: 3.0457  data: 2.6143  max mem: 27885
+[14:39:25.270259] Test:  [3/4]  eta: 0:00:01  loss: 1.3054 (1.3191)  time: 1.0321  data: 0.6536  max mem: 27885
+[14:39:25.319397] Test: Total time: 0:00:04 (1.0447 s / it)
+[14:39:26.367738] Dice score of the network on the train images: 0.004355, val images: 0.012553
+[14:39:26.371403] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:39:38.390598] Epoch: [7]  [ 0/18]  eta: 0:03:36  lr: 0.000003  loss: 1.4289 (1.4289)  time: 12.0179  data: 11.1793  max mem: 27885
+[14:40:02.450860] Epoch: [7]  [17/18]  eta: 0:00:02  lr: 0.000003  loss: 1.4123 (1.4092)  time: 2.0043  data: 1.1619  max mem: 27885
+[14:40:02.531419] Epoch: [7] Total time: 0:00:36 (2.0089 s / it)
+[14:40:02.531676] Averaged stats: lr: 0.000003  loss: 1.4123 (1.4092)
+[14:40:15.205237] Test:  [ 0/18]  eta: 0:03:48  loss: 1.2770 (1.2770)  time: 12.6711  data: 12.2389  max mem: 27885
+[14:40:30.299261] Test:  [10/18]  eta: 0:00:20  loss: 1.2508 (1.2498)  time: 2.5240  data: 2.0894  max mem: 27885
+[14:40:37.216815] Test:  [17/18]  eta: 0:00:01  loss: 1.2466 (1.2418)  time: 1.9267  data: 1.4905  max mem: 27885
+[14:40:37.297492] Test: Total time: 0:00:34 (1.9314 s / it)
+[14:40:45.300396] Test:  [0/4]  eta: 0:00:12  loss: 1.2692 (1.2692)  time: 3.1691  data: 2.7385  max mem: 27885
+[14:40:46.383245] Test:  [3/4]  eta: 0:00:01  loss: 1.2546 (1.2632)  time: 1.0628  data: 0.6847  max mem: 27885
+[14:40:46.436464] Test: Total time: 0:00:04 (1.0764 s / it)
+[14:40:47.490771] Dice score of the network on the train images: 0.004484, val images: 0.011018
+[14:40:47.493770] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:41:00.850312] Epoch: [8]  [ 0/18]  eta: 0:04:00  lr: 0.000003  loss: 1.3812 (1.3812)  time: 13.3557  data: 12.5188  max mem: 27885
+[14:41:23.951878] Epoch: [8]  [17/18]  eta: 0:00:02  lr: 0.000003  loss: 1.3072 (1.3166)  time: 2.0254  data: 1.1855  max mem: 27885
+[14:41:24.027081] Epoch: [8] Total time: 0:00:36 (2.0296 s / it)
+[14:41:24.027374] Averaged stats: lr: 0.000003  loss: 1.3072 (1.3166)
+[14:41:33.928018] Test:  [ 0/18]  eta: 0:02:58  loss: 1.1535 (1.1535)  time: 9.8979  data: 9.4673  max mem: 27885
+[14:41:53.053362] Test:  [10/18]  eta: 0:00:21  loss: 1.1712 (1.1798)  time: 2.6384  data: 2.2045  max mem: 27885
+[14:41:59.356084] Test:  [17/18]  eta: 0:00:01  loss: 1.1783 (1.1785)  time: 1.9625  data: 1.5276  max mem: 27885
+[14:41:59.440285] Test: Total time: 0:00:35 (1.9673 s / it)
+[14:42:07.417405] Test:  [0/4]  eta: 0:00:12  loss: 1.2036 (1.2036)  time: 3.1812  data: 2.7503  max mem: 27885
+[14:42:08.499384] Test:  [3/4]  eta: 0:00:01  loss: 1.1883 (1.2085)  time: 1.0656  data: 0.6876  max mem: 27885
+[14:42:08.563452] Test: Total time: 0:00:04 (1.0819 s / it)
+[14:42:09.619178] Dice score of the network on the train images: 0.007819, val images: 0.017603
+[14:42:09.619407] saving best_prec_model @ epoch 8
+[14:42:10.101946] saving best_dice_model @ epoch 8
+[14:42:10.541672] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[14:42:24.673089] Epoch: [9]  [ 0/18]  eta: 0:04:14  lr: 0.000004  loss: 1.2260 (1.2260)  time: 14.1303  data: 13.2683  max mem: 27885
+[14:42:46.913599] Epoch: [9]  [17/18]  eta: 0:00:02  lr: 0.000004  loss: 1.2593 (1.2665)  time: 2.0205  data: 1.1792  max mem: 27885
+[14:42:46.994447] Epoch: [9] Total time: 0:00:36 (2.0251 s / it)
+[14:42:46.994658] Averaged stats: lr: 0.000004  loss: 1.2593 (1.2665)
+[14:42:59.332951] Test:  [ 0/18]  eta: 0:03:42  loss: 1.1312 (1.1312)  time: 12.3354  data: 11.9020  max mem: 27885
+[14:43:04.667597] [14:43:04.667898] [14:43:04.668008] [14:43:04.668075] [14:43:04.668135] [14:43:04.668195] [14:43:04.668277] [14:43:04.668342] [14:43:04.668400] [14:43:04.668456] [14:43:04.668512] [14:43:04.668567] [14:43:04.668627] [14:43:04.668684] [14:43:04.668749]
+Traceback (most recent call last):
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/root/seg_framework/MS-Mamba/run_scripts/train_mslesseg.py", line 427, in <module>
+    main(args)
+  File "/root/seg_framework/MS-Mamba/run_scripts/train_mslesseg.py", line 339, in main
+    train_val_stats = evaluate(dataloader_train, model, device)
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/root/seg_framework/MS-Mamba/run_scripts/train_mslesseg.py", line 184, in evaluate
+    for batch in metric_logger.log_every(data_loader, 10, header):
+  File "/root/seg_framework/MS-Mamba/utils/misc.py", line 145, in log_every
+    for obj in iterable:
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+    data = self._next_data()
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1328, in _next_data
+    idx, data = self._get_data()
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1284, in _get_data
+    success, data = self._try_get_data()
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1132, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/root/anaconda3/envs/vivim/lib/python3.10/queue.py", line 180, in get
+    self.not_empty.wait(remaining)
+  File "/root/anaconda3/envs/vivim/lib/python3.10/threading.py", line 324, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt

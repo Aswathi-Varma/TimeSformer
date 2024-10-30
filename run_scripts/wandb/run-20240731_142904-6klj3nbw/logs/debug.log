@@ -1,0 +1,30 @@
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Current SDK version is 0.17.5
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Configure stats pid to 32751
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Loading settings from /root/.config/wandb/settings
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Loading settings from /root/seg_framework/MS-Mamba/run_scripts/wandb/settings
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-07-31 14:29:04,038 WARNING MainThread:32751 [wandb_setup.py:_flush():76] Could not find program at -m train_mslesseg
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': None, 'program': '-m train_mslesseg'}
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:_log_setup():529] Logging user logs to /root/seg_framework/MS-Mamba/run_scripts/wandb/run-20240731_142904-6klj3nbw/logs/debug.log
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:_log_setup():530] Logging internal logs to /root/seg_framework/MS-Mamba/run_scripts/wandb/run-20240731_142904-6klj3nbw/logs/debug-internal.log
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:init():569] calling init triggers
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:init():576] wandb.init called with sweep_config: {}
+config: {'accum_iter': 1, 'model': 'SegFormer3D', 'in_channels': 1, 'lr': None, 'blr': 0.001, 'min_lr': 0, 'dist_on_itp': False, 'warmup_epochs': 20, 'device': 'cuda:0', 'seed': 42, 'layer_decay': 0.75, 'clip_grad': None, 'num_workers': 8, 'pin_mem': True, 'resume': '', 'world_size': 1, 'embed_dim': 1, 'local_rank': -1, 'dist_url': 'env://', 'nb_classes': 2, 'data_dir': '/root/MSLesSeg24/data', 'datalist': None, 'modalities': 'T1,T2,FLAIR,T1ce', 'preprocess': False}
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:init():619] starting backend
+2024-07-31 14:29:04,038 INFO    MainThread:32751 [wandb_init.py:init():623] setting up manager
+2024-07-31 14:29:04,039 INFO    MainThread:32751 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-07-31 14:29:04,039 INFO    MainThread:32751 [wandb_init.py:init():631] backend started and connected
+2024-07-31 14:29:04,041 INFO    MainThread:32751 [wandb_init.py:init():720] updated telemetry
+2024-07-31 14:29:04,044 INFO    MainThread:32751 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-07-31 14:29:04,413 INFO    MainThread:32751 [wandb_run.py:_on_init():2435] communicating current version
+2024-07-31 14:29:04,473 INFO    MainThread:32751 [wandb_run.py:_on_init():2444] got version response 
+2024-07-31 14:29:04,474 INFO    MainThread:32751 [wandb_init.py:init():804] starting run threads in backend
+2024-07-31 14:29:06,088 INFO    MainThread:32751 [wandb_run.py:_console_start():2413] atexit reg
+2024-07-31 14:29:06,088 INFO    MainThread:32751 [wandb_run.py:_redirect():2255] redirect: wrap_raw
+2024-07-31 14:29:06,088 INFO    MainThread:32751 [wandb_run.py:_redirect():2320] Wrapping output streams.
+2024-07-31 14:29:06,088 INFO    MainThread:32751 [wandb_run.py:_redirect():2345] Redirects installed.
+2024-07-31 14:29:06,089 INFO    MainThread:32751 [wandb_init.py:init():847] run started, returning control to user process
+2024-07-31 14:29:06,878 INFO    MainThread:32751 [wandb_run.py:_tensorboard_callback():1544] tensorboard callback: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft, True
+2024-07-31 14:29:06,879 INFO    MainThread:32751 [wandb_run.py:_tensorboard_callback():1544] tensorboard callback: /root/seg_framework/MS-Mamba/output_dir/mslesseg/val_ft, True

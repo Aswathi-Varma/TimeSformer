@@ -1,0 +1,1274 @@
+Not using distributed mode
+[20:12:12.042412] job dir: /root/seg_framework/MS-Mamba/run_scripts
+[20:12:12.042507] Namespace(accum_iter=1,
+model='SegFormer3D',
+in_channels=1,
+lr=None,
+blr=0.001,
+min_lr=0,
+dist_on_itp=False,
+warmup_epochs=20,
+device='cuda:0',
+seed=42,
+layer_decay=0.75,
+clip_grad=None,
+num_workers=8,
+pin_mem=True,
+resume='',
+mask_mode='concatenate to image',
+world_size=1,
+embed_dim=1,
+local_rank=-1,
+dist_url='env://',
+nb_classes=2,
+data_dir='/root/MSLesSeg24/data',
+datalist=None,
+preprocess=True,
+dim=2,
+distributed=False)
+[20:12:12.043278] Starting for fold 0
+[20:12:12.045355] Preprocessing files...
+[20:12:12.045445] Processing patient P9
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/fold_0/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/fold_0/val_ft
+[20:12:16.713192] Processing patient P11
+[20:12:19.825022] Processing patient P28
+[20:12:22.918855] Processing patient P20
+[20:12:27.545773] Processing patient P10
+[20:12:30.628019] Processing patient P49
+[20:12:33.703988] Processing patient P33
+[20:12:36.800220] Processing patient P19
+[20:12:43.023249] Processing patient P22
+[20:12:46.089172] Processing patient P14
+[20:12:52.206197] Processing patient P1
+[20:12:56.793674] Processing patient P12
+[20:13:02.894272] Processing patient P53
+[20:13:05.966625] Processing patient P5
+[20:13:09.061185] Processing patient P52
+[20:13:12.128950] Processing patient P2
+[20:13:18.275456] Files preprocessed.
+[20:13:18.465986] Elements in data_dir_paths: 11052
+[20:13:18.467893] Preprocessing files...
+[20:13:18.468016] Processing patient P4
+[20:13:23.070500] Processing patient P50
+[20:13:26.136110] Processing patient P31
+[20:13:29.238175] Processing patient P13
+[20:13:32.304217] Files preprocessed.
+[20:13:32.338226] Elements in data_dir_paths: 1803
+[20:13:32.338425] Preprocessing files...
+[20:13:32.338487] Processing patient P3
+[20:13:38.539918] Processing patient P51
+[20:13:41.665354] Processing patient P7
+[20:13:44.761997] Processing patient P8
+[20:13:47.874855] Processing patient P6
+/root/anaconda3/envs/vivim/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/val_ft
+[20:13:52.503051] Files preprocessed.
+[20:13:53.934426] number of params: 59620439
+[20:13:53.934671] model: Vivim2D(
+  (encoder): mamba_block(
+    (downsample_layers): SegformerEncoder(
+      (patch_embeddings): ModuleList(
+        (0): SegformerOverlapPatchEmbeddings(
+          (proj): Conv2d(3, 64, kernel_size=(7, 7), stride=(4, 4), padding=(3, 3))
+          (layer_norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        )
+        (1): SegformerOverlapPatchEmbeddings(
+          (proj): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (layer_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        )
+        (2): SegformerOverlapPatchEmbeddings(
+          (proj): Conv2d(128, 320, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (3): SegformerOverlapPatchEmbeddings(
+          (proj): Conv2d(320, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+      (block): ModuleList(
+        (0): ModuleList(
+          (0): SegformerLayer(
+            (layer_norm_1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=64, out_features=64, bias=True)
+                (key): Linear(in_features=64, out_features=64, bias=True)
+                (value): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+                (layer_norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): Identity()
+            (layer_norm_2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=256, out_features=64, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (1): SegformerLayer(
+            (layer_norm_1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=64, out_features=64, bias=True)
+                (key): Linear(in_features=64, out_features=64, bias=True)
+                (value): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+                (layer_norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.003703703870996833)
+            (layer_norm_2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=256, out_features=64, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (2): SegformerLayer(
+            (layer_norm_1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=64, out_features=64, bias=True)
+                (key): Linear(in_features=64, out_features=64, bias=True)
+                (value): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+                (layer_norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=64, out_features=64, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.007407407741993666)
+            (layer_norm_2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=256, out_features=64, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): ModuleList(
+          (0): SegformerLayer(
+            (layer_norm_1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=128, out_features=128, bias=True)
+                (key): Linear(in_features=128, out_features=128, bias=True)
+                (value): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+                (layer_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.011111111380159855)
+            (layer_norm_2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=512, out_features=128, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (1): SegformerLayer(
+            (layer_norm_1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=128, out_features=128, bias=True)
+                (key): Linear(in_features=128, out_features=128, bias=True)
+                (value): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+                (layer_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.014814815483987331)
+            (layer_norm_2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=512, out_features=128, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (2): SegformerLayer(
+            (layer_norm_1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=128, out_features=128, bias=True)
+                (key): Linear(in_features=128, out_features=128, bias=True)
+                (value): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+                (layer_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.018518518656492233)
+            (layer_norm_2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=512, out_features=128, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (3): SegformerLayer(
+            (layer_norm_1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=128, out_features=128, bias=True)
+                (key): Linear(in_features=128, out_features=128, bias=True)
+                (value): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+                (layer_norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=128, out_features=128, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.02222222276031971)
+            (layer_norm_2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=512, out_features=128, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (2): ModuleList(
+          (0): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='mean' instead.
+  warnings.warn(warning.format(ret))
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.025925926864147186)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (1): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.029629630967974663)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (2): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.03333333507180214)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (3): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.03703703731298447)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (4): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.04074074327945709)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (5): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.04444444552063942)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (6): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.048148151487112045)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (7): SegformerLayer(in_features=320, out_features=320, bias=True)
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.051851850003004074)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (8): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.0555555559694767)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (9): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.05925925821065903)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (10): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.06296296417713165)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (11): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.06666667014360428)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (12): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.07037036865949631)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (13): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.07407407462596893)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (14): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.07777778059244156)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (15): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.08148147910833359)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (16): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.08518518507480621)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (17): SegformerLayer(
+            (layer_norm_1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=320, out_features=320, bias=True)
+                (key): Linear(in_features=320, out_features=320, bias=True)
+                (value): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+                (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+                (layer_norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=320, out_features=320, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.08888889104127884)
+            (layer_norm_2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=1280, out_features=320, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (3): ModuleList(
+          (0): SegformerLayer(
+            (layer_norm_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=512, out_features=512, bias=True)
+                (key): Linear(in_features=512, out_features=512, bias=True)
+                (value): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.09259259700775146)
+            (layer_norm_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=2048, out_features=512, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (1): SegformerLayer(
+            (layer_norm_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=512, out_features=512, bias=True)
+                (key): Linear(in_features=512, out_features=512, bias=True)
+                (value): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.0962962955236435)
+            (layer_norm_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=2048, out_features=512, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+          (2): SegformerLayer(
+            (layer_norm_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (attention): SegformerAttention(
+              (self): SegformerEfficientSelfAttention(
+                (query): Linear(in_features=512, out_features=512, bias=True)
+                (key): Linear(in_features=512, out_features=512, bias=True)
+                (value): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+              (output): SegformerSelfOutput(
+                (dense): Linear(in_features=512, out_features=512, bias=True)
+                (dropout): Dropout(p=0.0, inplace=False)
+              )
+            )
+            (drop_path): SegformerDropPath(p=0.10000000149011612)
+            (layer_norm_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): SegformerMixFFN(
+              (dense1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): SegformerDWConv(
+                (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+              )
+              (intermediate_act_fn): GELUActivation()
+              (dense2): Linear(in_features=2048, out_features=512, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (layer_norm): ModuleList(
+        (0): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        (2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        (3): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      )
+    )
+    (stages): ModuleList(
+      (0): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=64, out_features=256, bias=False)
+              (conv1d): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (act): SiLU()
+              (x_proj): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_b): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_b): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_b): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_s): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_s): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_s): Linear(in_features=4, out_features=128, bias=True)
+              (out_proj): Linear(in_features=128, out_features=64, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=256)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=256, out_features=64, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=64, out_features=256, bias=False)
+              (conv1d): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (act): SiLU()
+              (x_proj): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_b): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_b): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_b): Linear(in_features=4, out_features=128, bias=True)
+              (conv1d_s): Conv1d(128, 128, kernel_size=(4,), stride=(1,), padding=(3,), groups=128)
+              (x_proj_s): Linear(in_features=128, out_features=36, bias=False)
+              (dt_proj_s): Linear(in_features=4, out_features=128, bias=True)
+              (out_proj): Linear(in_features=128, out_features=64, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=64, out_features=256, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=256)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=256, out_features=64, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (1): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=128, out_features=512, bias=False)
+              (conv1d): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (act): SiLU()
+              (x_proj): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_b): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_b): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_b): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_s): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_s): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_s): Linear(in_features=8, out_features=256, bias=True)
+              (out_proj): Linear(in_features=256, out_features=128, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=512)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=512, out_features=128, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=128, out_features=512, bias=False)
+              (conv1d): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (act): SiLU()
+              (x_proj): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_b): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_b): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_b): Linear(in_features=8, out_features=256, bias=True)
+              (conv1d_s): Conv1d(256, 256, kernel_size=(4,), stride=(1,), padding=(3,), groups=256)
+              (x_proj_s): Linear(in_features=256, out_features=40, bias=False)
+              (dt_proj_s): Linear(in_features=8, out_features=256, bias=True)
+              (out_proj): Linear(in_features=256, out_features=128, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=128, out_features=512, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(512, 512, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=512)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=512, out_features=128, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (2): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=320, out_features=1280, bias=False)
+              (conv1d): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (act): SiLU()
+              (x_proj): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_b): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_b): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_b): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_s): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_s): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_s): Linear(in_features=20, out_features=640, bias=True)
+              (out_proj): Linear(in_features=640, out_features=320, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(1280, 1280, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=1280)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=1280, out_features=320, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=320, out_features=1280, bias=False)
+              (conv1d): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (act): SiLU()
+              (x_proj): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_b): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_b): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_b): Linear(in_features=20, out_features=640, bias=True)
+              (conv1d_s): Conv1d(640, 640, kernel_size=(4,), stride=(1,), padding=(3,), groups=640)
+              (x_proj_s): Linear(in_features=640, out_features=52, bias=False)
+              (dt_proj_s): Linear(in_features=20, out_features=640, bias=True)
+              (out_proj): Linear(in_features=640, out_features=320, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=320, out_features=1280, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(1280, 1280, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=1280)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=1280, out_features=320, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+      (3): Sequential(
+        (0): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=512, out_features=2048, bias=False)
+              (conv1d): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (act): SiLU()
+              (x_proj): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_b): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_b): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_b): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_s): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_s): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_s): Linear(in_features=32, out_features=1024, bias=True)
+              (out_proj): Linear(in_features=1024, out_features=512, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(2048, 2048, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=2048)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=2048, out_features=512, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+        (1): Sequential(
+          (0): MambaLayer(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mamba): Mamba(
+              (in_proj): Linear(in_features=512, out_features=2048, bias=False)
+              (conv1d): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (act): SiLU()
+              (x_proj): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_b): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_b): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_b): Linear(in_features=32, out_features=1024, bias=True)
+              (conv1d_s): Conv1d(1024, 1024, kernel_size=(4,), stride=(1,), padding=(3,), groups=1024)
+              (x_proj_s): Linear(in_features=1024, out_features=64, bias=False)
+              (dt_proj_s): Linear(in_features=32, out_features=1024, bias=True)
+              (out_proj): Linear(in_features=1024, out_features=512, bias=False)
+            )
+            (drop_path): Identity()
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): Mlp(
+              (fc1): Linear(in_features=512, out_features=2048, bias=True)
+              (dwconv): DWConv(
+                (dwconv): Conv3d(2048, 2048, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), groups=2048)
+              )
+              (act): GELU(approximate='none')
+              (fc2): Linear(in_features=2048, out_features=512, bias=True)
+              (drop): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+    )
+  )
+  (decoder): SegformerDecodeHead(
+    (linear_c): ModuleList(
+      (0): SegformerMLP(
+        (proj): Linear(in_features=64, out_features=768, bias=True)
+      )
+      (1): SegformerMLP(
+        (proj): Linear(in_features=128, out_features=768, bias=True)
+      )
+      (2): SegformerMLP(
+        (proj): Linear(in_features=320, out_features=768, bias=True)
+      )
+      (3): SegformerMLP(
+        (proj): Linear(in_features=512, out_features=768, bias=True)
+      )
+    )
+    (linear_fuse): Conv2d(3072, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (batch_norm): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (activation): ReLU()
+    (dropout): Dropout(p=0.1, inplace=False)
+    (classifier): Conv2d(768, 150, kernel_size=(1, 1), stride=(1, 1))
+  )
+  (out): Conv2d(768, 1, kernel_size=(1, 1), stride=(1, 1))
+)
+[20:13:53.937714] base lr: 1.00e-03
+[20:13:53.937779] actual lr: 1.25e-04
+[20:13:53.937832] accumulate grad iterations: 1
+[20:13:53.937881] effective batch size: 32
+[20:13:53.939342] AdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 0.000125
+    maximize: False
+    weight_decay: 0.01
+)
+[20:13:53.941526] Start training for 50 epochs
+[20:13:53.941622] Number of samples in train dataloader:  345
+[20:13:53.943379] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[20:14:03.834919] Epoch: [0]  [  0/345]  eta: 0:56:52  lr: 0.000000  loss: 1.7518 (1.7518)  time: 9.8905  data: 0.2894  max mem: 15821
+[20:14:15.468366] Epoch: [0]  [ 20/345]  eta: 0:05:33  lr: 0.000000  loss: 1.7501 (1.7532)  time: 0.5816  data: 0.0001  max mem: 15821
+[20:14:27.297235] Epoch: [0]  [ 40/345]  eta: 0:04:08  lr: 0.000001  loss: 1.7377 (1.7456)  time: 0.5914  data: 0.0001  max mem: 15821
+[20:14:39.066695] Epoch: [0]  [ 60/345]  eta: 0:03:30  lr: 0.000001  loss: 1.7284 (1.7411)  time: 0.5884  data: 0.0001  max mem: 15821
+[20:14:50.935994] Epoch: [0]  [ 80/345]  eta: 0:03:06  lr: 0.000001  loss: 1.7253 (1.7373)  time: 0.5934  data: 0.0001  max mem: 15821
+[20:15:02.858048] Epoch: [0]  [100/345]  eta: 0:02:47  lr: 0.000002  loss: 1.7049 (1.7310)  time: 0.5961  data: 0.0001  max mem: 15821
+[20:15:14.832607] Epoch: [0]  [120/345]  eta: 0:02:30  lr: 0.000002  loss: 1.6914 (1.7239)  time: 0.5987  data: 0.0001  max mem: 15821
+[20:15:26.820370] Epoch: [0]  [140/345]  eta: 0:02:15  lr: 0.000003  loss: 1.6628 (1.7156)  time: 0.5993  data: 0.0001  max mem: 15821
+[20:15:38.836724] Epoch: [0]  [160/345]  eta: 0:02:00  lr: 0.000003  loss: 1.6343 (1.7056)  time: 0.6008  data: 0.0001  max mem: 15821
+[20:15:50.887256] Epoch: [0]  [180/345]  eta: 0:01:46  lr: 0.000003  loss: 1.6012 (1.6939)  time: 0.6025  data: 0.0001  max mem: 15821
+[20:16:02.953150] Epoch: [0]  [200/345]  eta: 0:01:33  lr: 0.000004  loss: 1.5487 (1.6798)  time: 0.6033  data: 0.0001  max mem: 15821
+[20:16:15.047976] Epoch: [0]  [220/345]  eta: 0:01:19  lr: 0.000004  loss: 1.4950 (1.6632)  time: 0.6047  data: 0.0001  max mem: 15821
+[20:16:27.131394] Epoch: [0]  [240/345]  eta: 0:01:06  lr: 0.000004  loss: 1.4280 (1.6439)  time: 0.6041  data: 0.0001  max mem: 15821
+[20:16:39.203204] Epoch: [0]  [260/345]  eta: 0:00:53  lr: 0.000005  loss: 1.3488 (1.6216)  time: 0.6035  data: 0.0001  max mem: 15821
+[20:16:51.290505] Epoch: [0]  [280/345]  eta: 0:00:41  lr: 0.000005  loss: 1.2881 (1.5976)  time: 0.6043  data: 0.0001  max mem: 15821
+[20:17:03.376323] Epoch: [0]  [300/345]  eta: 0:00:28  lr: 0.000005  loss: 1.2316 (1.5734)  time: 0.6043  data: 0.0001  max mem: 15821
+[20:17:15.476767] Epoch: [0]  [320/345]  eta: 0:00:15  lr: 0.000006  loss: 1.1881 (1.5497)  time: 0.6050  data: 0.0001  max mem: 15821
+[20:17:27.559354] Epoch: [0]  [340/345]  eta: 0:00:03  lr: 0.000006  loss: 1.1580 (1.5267)  time: 0.6041  data: 0.0001  max mem: 15821
+[20:17:29.977313] Epoch: [0]  [344/345]  eta: 0:00:00  lr: 0.000006  loss: 1.1537 (1.5223)  time: 0.6044  data: 0.0001  max mem: 15821
+[20:17:30.049497] Epoch: [0] Total time: 0:03:36 (0.6264 s / it)
+[20:17:30.050017] Averaged stats: lr: 0.000006  loss: 1.1537 (1.5223)
+[20:17:30.556834] Test:  [  0/345]  eta: 0:02:53  loss: 1.1502 (1.1502)  time: 0.5015  data: 0.3366  max mem: 15821
+[20:17:32.223989] Test:  [ 10/345]  eta: 0:01:06  loss: 1.1519 (1.1516)  time: 0.1971  data: 0.0307  max mem: 15821
+[20:17:33.893626] Test:  [ 20/345]  eta: 0:00:59  loss: 1.1519 (1.1522)  time: 0.1667  data: 0.0001  max mem: 15821
+[20:17:35.565025] Test:  [ 30/345]  eta: 0:00:55  loss: 1.1519 (1.1524)  time: 0.1670  data: 0.0001  max mem: 15821
+[20:17:37.240894] Test:  [ 40/345]  eta: 0:00:53  loss: 1.1536 (1.1526)  time: 0.1673  data: 0.0001  max mem: 15821
+[20:17:38.920518] Test:  [ 50/345]  eta: 0:00:51  loss: 1.1537 (1.1527)  time: 0.1677  data: 0.0001  max mem: 15821
+[20:17:40.602952] Test:  [ 60/345]  eta: 0:00:49  loss: 1.1541 (1.1530)  time: 0.1680  data: 0.0001  max mem: 15821
+[20:17:42.287626] Test:  [ 70/345]  eta: 0:00:47  loss: 1.1538 (1.1530)  time: 0.1683  data: 0.0001  max mem: 15821
+[20:17:43.976273] Test:  [ 80/345]  eta: 0:00:45  loss: 1.1522 (1.1528)  time: 0.1686  data: 0.0001  max mem: 15821
+[20:17:45.668809] Test:  [ 90/345]  eta: 0:00:43  loss: 1.1510 (1.1530)  time: 0.1690  data: 0.0001  max mem: 15821
+[20:17:47.364434] Test:  [100/345]  eta: 0:00:41  loss: 1.1534 (1.1531)  time: 0.1693  data: 0.0001  max mem: 15821
+[20:17:49.063437] Test:  [110/345]  eta: 0:00:40  loss: 1.1543 (1.1532)  time: 0.1697  data: 0.0001  max mem: 15821
+[20:17:50.767472] Test:  [120/345]  eta: 0:00:38  loss: 1.1547 (1.1534)  time: 0.1701  data: 0.0001  max mem: 15821
+[20:17:52.472029] Test:  [130/345]  eta: 0:00:36  loss: 1.1544 (1.1533)  time: 0.1704  data: 0.0001  max mem: 15821
+[20:17:54.182693] Test:  [140/345]  eta: 0:00:35  loss: 1.1537 (1.1533)  time: 0.1707  data: 0.0001  max mem: 15821
+[20:17:55.897475] Test:  [150/345]  eta: 0:00:33  loss: 1.1539 (1.1534)  time: 0.1712  data: 0.0001  max mem: 15821
+[20:17:57.613788] Test:  [160/345]  eta: 0:00:31  loss: 1.1535 (1.1533)  time: 0.1715  data: 0.0001  max mem: 15821
+[20:17:59.333438] Test:  [170/345]  eta: 0:00:29  loss: 1.1535 (1.1534)  time: 0.1717  data: 0.0001  max mem: 15821
+[20:18:01.057949] Test:  [180/345]  eta: 0:00:28  loss: 1.1539 (1.1534)  time: 0.1721  data: 0.0001  max mem: 15821
+[20:18:02.786043] Test:  [190/345]  eta: 0:00:26  loss: 1.1520 (1.1533)  time: 0.1725  data: 0.0001  max mem: 15821
+[20:18:04.516036] Test:  [200/345]  eta: 0:00:24  loss: 1.1521 (1.1532)  time: 0.1728  data: 0.0001  max mem: 15821
+[20:18:06.642225] Test:  [210/345]  eta: 0:00:23  loss: 1.1518 (1.1531)  time: 0.1927  data: 0.0001  max mem: 15821
+[20:18:08.393132] Test:  [220/345]  eta: 0:00:21  loss: 1.1513 (1.1531)  time: 0.1938  data: 0.0001  max mem: 15821
+[20:18:10.270804] Test:  [230/345]  eta: 0:00:20  loss: 1.1533 (1.1531)  time: 0.1814  data: 0.0001  max mem: 15821
+[20:18:12.019366] Test:  [240/345]  eta: 0:00:18  loss: 1.1531 (1.1531)  time: 0.1813  data: 0.0001  max mem: 15821
+[20:18:14.003730] Test:  [250/345]  eta: 0:00:16  loss: 1.1533 (1.1531)  time: 0.1866  data: 0.0001  max mem: 15821
+[20:18:15.997308] Test:  [260/345]  eta: 0:00:14  loss: 1.1533 (1.1531)  time: 0.1988  data: 0.0001  max mem: 15821
+[20:18:17.908335] Test:  [270/345]  eta: 0:00:13  loss: 1.1522 (1.1530)  time: 0.1952  data: 0.0001  max mem: 15821
+[20:18:19.693283] Test:  [280/345]  eta: 0:00:11  loss: 1.1524 (1.1530)  time: 0.1847  data: 0.0001  max mem: 15821
+[20:18:21.643517] Test:  [290/345]  eta: 0:00:09  loss: 1.1534 (1.1530)  time: 0.1867  data: 0.0001  max mem: 15821
+[20:18:23.663391] Test:  [300/345]  eta: 0:00:08  loss: 1.1538 (1.1530)  time: 0.1984  data: 0.0001  max mem: 15821
+[20:18:25.617348] Test:  [310/345]  eta: 0:00:06  loss: 1.1543 (1.1531)  time: 0.1986  data: 0.0001  max mem: 15821
+[20:18:27.639409] Test:  [320/345]  eta: 0:00:04  loss: 1.1547 (1.1531)  time: 0.1987  data: 0.0001  max mem: 15821
+[20:18:29.650276] Test:  [330/345]  eta: 0:00:02  loss: 1.1556 (1.1532)  time: 0.2016  data: 0.0001  max mem: 15821
+[20:18:31.455719] Test:  [340/345]  eta: 0:00:00  loss: 1.1548 (1.1532)  time: 0.1907  data: 0.0001  max mem: 15821
+[20:18:32.492865] Test:  [344/345]  eta: 0:00:00  loss: 1.1539 (1.1532)  time: 0.2061  data: 0.0001  max mem: 15821
+[20:18:32.565904] Test: Total time: 0:01:02 (0.1812 s / it)
+[20:18:43.881124] Test:  [ 0/57]  eta: 0:00:27  loss: 1.1625 (1.1625)  time: 0.4897  data: 0.3272  max mem: 15821
+[20:18:45.530085] Test:  [10/57]  eta: 0:00:09  loss: 1.1615 (1.1602)  time: 0.1943  data: 0.0299  max mem: 15821
+[20:18:47.183690] Test:  [20/57]  eta: 0:00:06  loss: 1.1597 (1.1574)  time: 0.1650  data: 0.0001  max mem: 15821
+[20:18:48.840358] Test:  [30/57]  eta: 0:00:04  loss: 1.1466 (1.1483)  time: 0.1654  data: 0.0001  max mem: 15821
+[20:18:50.500273] Test:  [40/57]  eta: 0:00:02  loss: 1.1312 (1.1433)  time: 0.1658  data: 0.0001  max mem: 15821
+[20:18:52.165385] Test:  [50/57]  eta: 0:00:01  loss: 1.1402 (1.1418)  time: 0.1662  data: 0.0001  max mem: 15821
+[20:18:53.849289] Test:  [56/57]  eta: 0:00:00  loss: 1.1406 (1.1423)  time: 0.2006  data: 0.0001  max mem: 15821
+[20:18:53.909681] Test: Total time: 0:00:10 (0.1845 s / it)
+[20:18:55.757165] Dice score of the network on the train images: 0.000000, val images: 0.000000
+[20:18:55.757413] saving best_dice_model_0 @ epoch 0
+[20:18:56.500099] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[20:18:57.420068] Epoch: [1]  [  0/345]  eta: 0:05:17  lr: 0.000006  loss: 1.1360 (1.1360)  time: 0.9190  data: 0.3164  max mem: 15821
+Traceback (most recent call last):
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/root/seg_framework/MS-Mamba/run_scripts/K_fold_mslesseg_25D.py", line 576, in <module>
+    main(args)
+  File "/root/seg_framework/MS-Mamba/run_scripts/K_fold_mslesseg_25D.py", line 482, in main
+    train_stats = train_one_epoch(
+  File "/root/seg_framework/MS-Mamba/run_scripts/K_fold_mslesseg_25D.py", line 134, in train_one_epoch
+    loss_scaler(loss, optimizer, clip_grad=max_norm,
+  File "/root/seg_framework/MS-Mamba/utils/misc.py", line 267, in __call__
+    norm = get_grad_norm_(parameters)
+  File "/root/seg_framework/MS-Mamba/utils/misc.py", line 294, in get_grad_norm_
+    total_norm = torch.norm(torch.stack([torch.norm(p.grad.detach(), norm_type).to(device) for p in parameters]), norm_type)
+  File "/root/seg_framework/MS-Mamba/utils/misc.py", line 294, in <listcomp>
+    total_norm = torch.norm(torch.stack([torch.norm(p.grad.detach(), norm_type).to(device) for p in parameters]), norm_type)
+  File "/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/functional.py", line 1611, in norm
+    return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype)
+KeyboardInterrupt
+[20:19:05.771527] [20:19:05.771768] [20:19:05.771842] [20:19:05.771904] [20:19:05.771963] [20:19:05.772021] [20:19:05.772079] [20:19:05.772137] [20:19:05.772201] [20:19:05.772270] [20:19:05.772337]

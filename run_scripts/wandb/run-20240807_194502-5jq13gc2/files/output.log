@@ -1,0 +1,83 @@
+Not using distributed mode
+[19:45:05.012280] job dir: /root/seg_framework/MS-Mamba/run_scripts
+[19:45:05.012421] Namespace(accum_iter=1,
+model='SegFormer3D',
+in_channels=1,
+lr=None,
+blr=0.001,
+min_lr=0,
+dist_on_itp=False,
+warmup_epochs=20,
+device='cuda:0',
+seed=42,
+layer_decay=0.75,
+clip_grad=None,
+num_workers=8,
+pin_mem=True,
+resume='',
+world_size=1,
+embed_dim=1,
+local_rank=-1,
+dist_url='env://',
+nb_classes=2,
+data_dir='/root/MSLesSeg24/data',
+datalist=None,
+modalities='T1,T2,FLAIR,T1ce',
+preprocess=False,
+distributed=False)
+[19:45:05.012533] device  cuda:0
+[19:45:05.014255] Starting for fold 0
+[19:45:05.830659] base lr: 1.00e-03
+[19:45:05.830926] actual lr: 7.81e-06
+[19:45:05.831028] accumulate grad iterations: 1
+[19:45:05.831114] effective batch size: 2
+[19:45:05.832088] AdamW (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: None
+    lr: 7.8125e-06
+    maximize: False
+    weight_decay: 0.01
+)
+[19:45:05.834386] Start training for 250 epochs
+[19:45:05.835532] log_dir: /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/fold_0/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/fold_0/val_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/train_ft
+[34m[1mwandb[39m[22m: [33mWARNING[39m When using several event log directories, please call `wandb.tensorboard.patch(root_logdir="...")` before `wandb.init`
+[34m[1mwandb[39m[22m: [33mWARNING[39m Found log directory outside of given root_logdir, dropping given root_logdir for event file in /root/seg_framework/MS-Mamba/output_dir/mslesseg/val_ft
+/root/anaconda3/envs/vivim/lib/python3.10/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='mean' instead.
+  warnings.warn(warning.format(ret))
+[19:45:40.367706] Epoch: [0]  [ 0/21]  eta: 0:12:05  lr: 0.000000  loss: 4.3666 (4.3666)  time: 34.5312  data: 11.4542  max mem: 33204
+[19:46:03.308458] Epoch: [0]  [20/21]  eta: 0:00:02  lr: 0.000000  loss: 4.1108 (4.1401)  time: 1.1470  data: 0.0001  max mem: 33204
+[19:46:03.367061] Epoch: [0] Total time: 0:00:57 (2.7396 s / it)
+[19:46:03.367334] Averaged stats: lr: 0.000000  loss: 4.1108 (4.1401)
+[19:46:16.481561] Test:  [ 0/21]  eta: 0:04:35  loss: 4.5127 (4.5127)  time: 13.1112  data: 12.5875  max mem: 33204
+[19:46:27.129365] Test:  [10/21]  eta: 0:00:23  loss: 4.8837 (4.8474)  time: 2.1598  data: 1.6348  max mem: 33204
+[19:46:38.761517] Test:  [20/21]  eta: 0:00:01  loss: 4.8837 (4.8532)  time: 1.1139  data: 0.5877  max mem: 33204
+[19:46:38.841969] Test: Total time: 0:00:35 (1.6892 s / it)
+[19:46:47.774351] Test:  [0/3]  eta: 0:00:09  loss: 5.1630 (5.1630)  time: 3.1860  data: 2.6661  max mem: 33204
+[19:46:48.821351] Test:  [2/3]  eta: 0:00:01  loss: 4.6134 (4.6647)  time: 1.4108  data: 0.8887  max mem: 33204
+[19:46:48.872847] Test: Total time: 0:00:04 (1.4284 s / it)
+[19:46:49.813325] Dice score of the network on the train images: 0.008057, val images: 0.017812
+[19:46:49.813561] saving best_prec_model_0 @ epoch 0
+[19:46:50.286140] saving best_rec_model_0 @ epoch 0
+[19:46:50.717756] saving best_dice_model_0 @ epoch 0
+Traceback (most recent call last):
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/root/anaconda3/envs/vivim/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/root/seg_framework/MS-Mamba/run_scripts/K_fold_mslesseg.py", line 458, in <module>
+    main(args)
+  File "/root/seg_framework/MS-Mamba/run_scripts/K_fold_mslesseg.py", line 398, in main
+    'n_parameters': n_parameters}
+NameError: name 'n_parameters' is not defined
+[19:46:51.147706] [19:46:51.148236] [19:46:51.148342] [19:46:51.148496] [19:46:51.148598] [19:46:51.148685]
