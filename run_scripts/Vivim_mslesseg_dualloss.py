@@ -208,7 +208,7 @@ def evaluate_test(data_loader, model, device):
     header = 'Test:'
     
     metric_fns = [precision, recall, dice_score]
-    res = 218
+    res = 224
 
     total_metrics = torch.zeros(len(metric_fns))
     patient_metrics = torch.zeros(len(metric_fns))
@@ -291,12 +291,12 @@ def evaluate_3D(avg_seg_volume, target_agg, metric_fns, path, patient, patient_m
     prefix = f'patient_{int(patient)}'
     seg_volume = torch.round(avg_seg_volume).int().cpu().detach().numpy()
     rotated_seg_volume = rotate(rotate(seg_volume, 90, axes=(0, 1)), -90, axes=(1, 2))
-    cropped_seg_volume = rotated_seg_volume[18:-18, :, 18:-18]
+    cropped_seg_volume = rotated_seg_volume[21:-21, 3:-3, 21:-21]
     nibabel.save(nibabel.Nifti1Image(cropped_seg_volume, np.eye(4)), os.path.join(path, f'{prefix}_seg.nii'))
 
     target_volume = torch.squeeze(target_agg).int().cpu().detach().numpy()
     rotated_target_volume = rotate(rotate(target_volume, 90, axes=(0, 1)), -90, axes=(1, 2))
-    cropped_target_volume = rotated_target_volume[18:-18, :, 18:-18]
+    cropped_target_volume = rotated_target_volume[21:-21, 3:-3, 21:-21]
     nibabel.save(nibabel.Nifti1Image(cropped_target_volume, np.eye(4)), os.path.join(path, f'{prefix}_target.nii.gz'))
 
     #Convert to tensors
@@ -367,7 +367,7 @@ def set_seed(seed: int = 42) -> None:
 
 def main(args):
 
-    #wandb.init(project="Seg_2.5", name="Vivim_dynamic_wt", group="mslesseg", config=args, sync_tensorboard=True)
+    wandb.init(project="Seg_2.5", name="TimeSFormer_ms", group="mslesseg", config=args, sync_tensorboard=True)
 
     misc.init_distributed_mode(args)
 
@@ -465,7 +465,7 @@ def main(args):
         criterion = dual_loss
 
         #model = SegFormerST(in_chans=args.in_channels, num_classes=args.nb_classes)
-        model = TimeSformer(img_size=218, patch_size=2, num_classes=1, num_frames=2)
+        model = TimeSformer(img_size=224, patch_size=16, num_classes=1, num_frames=2)
         model.to(device)
         model_without_ddp = model
         n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -563,7 +563,8 @@ def main(args):
         del model
         torch.cuda.empty_cache()
 
-        model = TimeSformer(img_size=218, patch_size=2, num_classes=1, num_frames=2)
+        #model = SegFormerST(in_chans=args.in_channels, num_classes=args.nb_classes)
+        model = TimeSformer(img_size=224, patch_size=16, num_classes=1, num_frames=2)
         output_dir = f"/root/seg_framework/ST-Seg/output_dir/mslesseg/checkpoints_{idx}"
         args.finetune = os.path.join(output_dir, f"checkpoint-best_dice_model_{idx}.pth")
         checkpoint = torch.load(args.finetune, map_location='cpu')

@@ -15,7 +15,7 @@ import torch
 import torch.nn.functional as F 
 from timm.models.layers import DropPath, trunc_normal_
 import math
-from model.ViTST import ViTST
+from model.TimeSformer import TimeSformer
 from transformers import SegformerForSemanticSegmentation
 
 
@@ -103,12 +103,12 @@ class Mlp(nn.Module):
 
 
 
-class ViTLayer(nn.Module):
-    def __init__(self, dim, d_state = 16, d_conv = 4, expand = 2, mlp_ratio=4, drop=0., drop_path=0., act_layer=nn.GELU):
+class STLayer(nn.Module):
+    def __init__(self, dim, mlp_ratio=4, drop=0., drop_path=0., act_layer=nn.GELU):
         super().__init__()
         self.dim = dim
         self.norm1 = nn.LayerNorm(dim)
-        self.vitst = ViTST(image_size=16, patch_size=4, num_classes=1, num_frames=2, dim = dim, depth = 4, heads = 3, pool = 'cls', in_channels = 2, dim_head = 64, dropout = 0.)
+        self.vit = TimeSformer(image_size=224, num_frames=2, embed_dim=dim)
 
         self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
         self.norm2 = nn.LayerNorm(dim)
@@ -140,7 +140,7 @@ class ViTLayer(nn.Module):
         img_dims = x.shape[2:]
         x_flat = x.reshape(B, C, n_tokens).transpose(-1, -2)
 
-        x_st = x_flat + self.drop_path(self.vitst(self.norm1(x_flat)))
+        x_st = x_flat + self.drop_path(self.vit(self.norm1(x_flat)))
         x_st = x_st + self.drop_path(self.mlp(self.norm2(x_st), nf, H, W))
         out = x_st.transpose(-1, -2).reshape(B, C, *img_dims)
 
@@ -171,7 +171,7 @@ class st_block(nn.Module):
         for i in range(len(dims)):
             stage = nn.Sequential(
                 *[nn.Sequential(
-                ViTLayer(dim=dims[i],drop_path=dp_rates[i])
+                STLayer(dim=dims[i],drop_path=dp_rates[i])
                     ) for j in range(depths[i])]
             )
             self.stages.append(stage)

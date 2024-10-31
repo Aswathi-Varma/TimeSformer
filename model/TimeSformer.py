@@ -13,7 +13,6 @@ import numpy as np
 from model.vit_utils import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from model.helpers import load_pretrained
 from model.vit_utils import DropPath, to_2tuple, trunc_normal_
-
 from torch import einsum
 from einops import rearrange, reduce, repeat
 
@@ -151,6 +150,22 @@ class Block(nn.Module):
             x = x + self.drop_path(self.mlp(self.norm2(x)))
             return x
 
+class DecodeBlock(nn.Module):
+
+    def __init__(self, dim, num_heads, mlp_ratio=4., qkv_bias=False, drop=0., attn_drop=0.,
+                 drop_path=0., act_layer=nn.GELU, norm_layer=nn.LayerNorm):
+        super().__init__()
+        self.norm1 = norm_layer(dim)
+        self.attn = Attention(dim, num_heads=num_heads, qkv_bias=qkv_bias, attn_drop=attn_drop, proj_drop=drop)
+        self.norm2 = norm_layer(dim)
+        mlp_hidden_dim = int(dim * mlp_ratio)
+        self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
+
+    def forward(self, x):
+        x = x + self.attn(self.norm1(x))
+        x = x + self.mlp(self.norm2(x))
+        return x
+
 class PatchEmbed(nn.Module):
     """ Image to Patch Embedding
     """
@@ -178,11 +193,16 @@ class VisionTransformer(nn.Module):
     """ Vision Transformere
     """
     def __init__(self, img_size=224, patch_size=16, in_chans=2, num_classes=1000, embed_dim=768, depth=12,
-                 num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
+                 num_heads=12, mlp_ratio=4., decoder_embed_dim=384, decoder_depth=12, decoder_num_heads=6, qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0.1, hybrid_backbone=None, norm_layer=nn.LayerNorm, num_frames=8, attention_type='divided_space_time', dropout=0.):
         super().__init__()
         self.attention_type = attention_type
         self.depth = depth
+        self.num_frames = num_frames
+        self.num_classes = num_classes
+        self.image_size = img_size
+        self.patch_size = patch_size
+
         self.dropout = nn.Dropout(dropout)
         self.num_classes = num_classes
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
@@ -207,10 +227,23 @@ class VisionTransformer(nn.Module):
             for i in range(self.depth)])
         self.norm = norm_layer(embed_dim)
 
-        # Classifier head
-        self.head = nn.Linear(embed_dim, num_classes) if num_classes > 0 else nn.Identity()
+        # Decoder
+        # --------------------------------------------------------------------------
+        self.decoder_embed = nn.Linear(embed_dim, decoder_embed_dim, bias=True)
+        self.decoder_pos_embed = nn.Parameter(torch.zeros(1, num_patches*num_frames + 1, decoder_embed_dim))
+
+        self.decoder_blocks = nn.ModuleList([
+            DecodeBlock(decoder_embed_dim, decoder_num_heads, mlp_ratio, qkv_bias=True, norm_layer=norm_layer)
+            for i in range(decoder_depth)])
+
+        self.decoder_norm = norm_layer(decoder_embed_dim)
+        self.decoder_pred = nn.Linear(decoder_embed_dim, patch_size ** 2 * num_classes * num_frames, bias=True)  # encoder to decoder
+        self.out = nn.Conv2d(num_patches*num_frames, num_classes, kernel_size=1)
+        # --------------------------------------------------------------------------
+    
 
         trunc_normal_(self.pos_embed, std=.02)
+        trunc_normal_(self.decoder_pos_embed, std=.02)
         trunc_normal_(self.cls_token, std=.02)
         self.apply(self._init_weights)
 
@@ -245,7 +278,7 @@ class VisionTransformer(nn.Module):
         self.num_classes = num_classes
         self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
-    def forward_features(self, x):
+    def forward_encoder(self, x):
         B = x.shape[0]
         x, T, W = self.patch_embed(x)
         cls_tokens = self.cls_token.expand(x.size(0), -1, -1)
@@ -296,11 +329,32 @@ class VisionTransformer(nn.Module):
             x = torch.mean(x, 1) # averaging predictions for every frame
 
         x = self.norm(x)
-        return x[:, 0]
+        return x
+    
+    def forward_decoder(self, x):
+        B = x.shape[0]
+        
+        # embed tokens
+        x = self.decoder_embed(x)
+        x = x + self.decoder_pos_embed
+        for blk in self.decoder_blocks:
+            x = blk(x)
+        x = self.decoder_norm(x)
+        x = self.decoder_pred(x)
+
+        # remove cls token
+        x = x[:, 1:, :].reshape(B*self.num_frames*self.num_classes, -1, self.patch_size, self.patch_size)
+
+        x = self.out(x)
+
+        #interpolate to input size
+        x = nn.functional.interpolate(x, size=(self.image_size, self.image_size), mode="bilinear", align_corners=False
+            ).reshape(B, self.num_frames, self.num_classes, self.image_size, self.image_size)
+        return x
 
     def forward(self, x):
-        x = self.forward_features(x)
-        x = self.head(x)
+        x = self.forward_encoder(x)
+        x = self.forward_decoder(x)
         return x
 
 def _conv_filter(state_dict, patch_size=16):
@@ -314,6 +368,7 @@ def _conv_filter(state_dict, patch_size=16):
         out_dict[k] = v
     return out_dict
 
+
 class vit_base_patch16_224(nn.Module):
     def __init__(self, cfg, **kwargs):
         super(vit_base_patch16_224, self).__init__()
@@ -322,24 +377,25 @@ class vit_base_patch16_224(nn.Module):
         self.model = VisionTransformer(img_size=cfg.DATA.TRAIN_CROP_SIZE, num_classes=cfg.MODEL.NUM_CLASSES, patch_size=patch_size, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1, num_frames=cfg.DATA.NUM_FRAMES, attention_type=cfg.TIMESFORMER.ATTENTION_TYPE, **kwargs)
 
         self.attention_type = cfg.TIMESFORMER.ATTENTION_TYPE
-        #self.model.default_cfg = default_cfgs['vit_base_patch16_224']
+        self.model.default_cfg = default_cfgs['vit_base_patch16_224']
         self.num_patches = (cfg.DATA.TRAIN_CROP_SIZE // patch_size) * (cfg.DATA.TRAIN_CROP_SIZE // patch_size)
-        #pretrained_model=cfg.TIMESFORMER.PRETRAINED_MODEL
-        # if self.pretrained:
-        #     load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=cfg.DATA.TRAIN_CROP_SIZE, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
+        pretrained_model=cfg.TIMESFORMER.PRETRAINED_MODEL
+        if self.pretrained:
+            load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=cfg.DATA.TRAIN_CROP_SIZE, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)
 
     def forward(self, x):
         x = self.model(x)
         return x
 
+
 class TimeSformer(nn.Module):
     def __init__(self, img_size=224, patch_size=16, num_classes=400, num_frames=8, attention_type='divided_space_time',  pretrained_model='', **kwargs):
         super(TimeSformer, self).__init__()
-        self.pretrained=True
-        self.model = VisionTransformer(img_size=img_size, num_classes=num_classes, patch_size=patch_size, embed_dim=192, depth=12, num_heads=3, mlp_ratio=4, qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1, num_frames=num_frames, attention_type=attention_type, **kwargs)
+        self.pretrained=False
+        self.model = VisionTransformer(img_size=img_size, num_classes=num_classes, patch_size=patch_size, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1, num_frames=num_frames, attention_type=attention_type, **kwargs)
 
         self.attention_type = attention_type
-        self.model.default_cfg = None
+        self.model.default_cfg = default_cfgs['vit_base_patch'+str(patch_size)+'_224']
         self.num_patches = (img_size // patch_size) * (img_size // patch_size)
         if self.pretrained:
             load_pretrained(self.model, num_classes=self.model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter, img_size=img_size, num_frames=num_frames, num_patches=self.num_patches, attention_type=self.attention_type, pretrained_model=pretrained_model)

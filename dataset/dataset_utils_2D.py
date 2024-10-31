@@ -121,7 +121,8 @@ def pad_to_largest_dimension(data_path):
     x_dim, y_dim, z_dim = data.shape
     
     # Find the largest dimension
-    max_dim = max(x_dim, y_dim, z_dim)
+    # max_dim = max(x_dim, y_dim, z_dim)
+    max_dim = 224
     
     # Calculate the padding required for each axis to center the data
     x_pad_before = (max_dim - x_dim) // 2
