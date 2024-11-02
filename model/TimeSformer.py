@@ -68,7 +68,9 @@ class Attention(nn.Module):
     def forward(self, x):
         B, N, C = x.shape
         if self.with_qkv:
-           qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
+           qkv = self.qkv(x)
+           qkv = qkv.reshape(B, N, 3, self.num_heads, C // self.num_heads)
+           qkv = qkv.permute(2, 0, 3, 1, 4)
            q, k, v = qkv[0], qkv[1], qkv[2]
         else:
            qkv = x.reshape(B, N, self.num_heads, C // self.num_heads).permute(0, 2, 1, 3)

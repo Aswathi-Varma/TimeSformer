@@ -34,6 +34,36 @@ def dice_loss(output, target):
             
         return dice_loss
 
+# def dice_score(output_logits, target_mask, threshold=0.5, eps=1e-6):
+#     """
+#     Calculate the Dice score for each time slice and average over the time dimension.
+
+#     Args:
+#         output_logits (torch.Tensor): The model output logits of shape (n, t, 1, h, w).
+#         target_mask (torch.Tensor): The ground truth binary mask of shape (n, t, 1, h, w).
+#         threshold (float): Threshold for binarizing probabilities.
+#         eps (float): Small constant to avoid division by zero.
+
+#     Returns:
+#         torch.Tensor: The mean Dice score across the time dimension.
+#     """
+#     # Apply sigmoid to convert logits to probabilities
+#     probs = torch.sigmoid(output_logits)
+    
+#     # Binarize probabilities based on the threshold
+#     binary_preds = (probs > threshold).float()
+    
+#     # Flatten the tensors for Dice calculation
+#     binary_preds = binary_preds.view(binary_preds.size(0), binary_preds.size(1), -1)  # (n, t, h*w)
+#     target_mask = target_mask.view(target_mask.size(0), target_mask.size(1), -1)      # (n, t, h*w)
+
+#     # Calculate Dice score for each time slice
+#     intersection = (binary_preds * target_mask).sum(-1)
+#     union = binary_preds.sum(-1) + target_mask.sum(-1)
+#     dice = (2.0 * intersection + eps) / (union + eps)
+
+#     # Average Dice score over the time dimension
+#     return dice.mean()
 
 def dice_score(output, target):
     smooth = 1e-7

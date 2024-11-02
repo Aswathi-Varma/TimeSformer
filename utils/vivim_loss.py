@@ -45,7 +45,7 @@ def dual_loss(pred, mask_tp1, mask_tp2):
     loss_diff = compute_loss(diff_pred, diff_gt)
     
     # Equal weight to all three loss terms
-    total_loss = (loss_tp1 + loss_tp2 + loss_diff) / 3
+    total_loss = (loss_tp1 + loss_tp2 ) / 2
     return total_loss
 
 
